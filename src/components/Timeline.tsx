@@ -10,9 +10,17 @@ type TimelineProps = {
   clips: Clip[];
   setClips: React.Dispatch<React.SetStateAction<Clip[]>>;
   playerRef: React.RefObject<PlayerRef | null>;
+  audioClips: Clip[];
+  setAudioClips: React.Dispatch<React.SetStateAction<Clip[]>>;
 };
 
-const Timeline: FC<TimelineProps> = ({ clips, setClips, playerRef }) => {
+const Timeline: FC<TimelineProps> = ({
+  clips,
+  setClips,
+  playerRef,
+  audioClips,
+  setAudioClips,
+}) => {
   const {
     tracks,
     handleDragEnd,
@@ -21,7 +29,8 @@ const Timeline: FC<TimelineProps> = ({ clips, setClips, playerRef }) => {
     handleMouseLeave,
     handleMouseMove,
     handleMouseUp,
-  } = useTimeline(clips, setClips, playerRef);
+    handleDragEndAudio,
+  } = useTimeline(clips, setClips, playerRef, setAudioClips);
 
   return (
     <div
@@ -42,6 +51,18 @@ const Timeline: FC<TimelineProps> = ({ clips, setClips, playerRef }) => {
           </div>
         ))}
       </DndContext>
+      {!!audioClips.length && (
+        <DndContext
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEndAudio}
+        >
+          <div className="relative h-15 border-b">
+            {audioClips.map((clip) => (
+              <ClipBlock key={clip.id} clip={clip} setClips={setAudioClips} />
+            ))}
+          </div>
+        </DndContext>
+      )}
     </div>
   );
 };

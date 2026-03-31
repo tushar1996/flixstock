@@ -9,6 +9,7 @@ export const useTimeline = (
   clips: Clip[],
   setClips: React.Dispatch<React.SetStateAction<Clip[]>>,
   playerRef: React.RefObject<PlayerRef | null>,
+  setAudioClips: React.Dispatch<React.SetStateAction<Clip[]>>,
 ) => {
   const tracks = useMemo(() => getTracks(clips), [clips]);
   const [isScrubbing, setIsScrubbing] = useState(false);
@@ -68,6 +69,22 @@ export const useTimeline = (
     );
   };
 
+  const handleDragEndAudio = (e: DragEndEvent) => {
+    setIsDragging(false);
+    const { delta, active } = e;
+
+    setAudioClips((prev) =>
+      prev.map((clip) => {
+        if (clip.id !== active.id) return clip;
+
+        const newStart = Math.max(0, clip.start + Math.round(delta.x / SCALE));
+        const updated = { ...clip, start: newStart };
+
+        return updated;
+      }),
+    );
+  };
+
   return {
     tracks,
     handleDragEnd,
@@ -76,5 +93,6 @@ export const useTimeline = (
     handleMouseLeave,
     handleMouseMove,
     handleMouseUp,
+    handleDragEndAudio,
   };
 };

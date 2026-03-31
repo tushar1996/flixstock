@@ -21,6 +21,9 @@ export default function App() {
     totalDurationInFrames,
     width,
     handleCanvasDragEnd,
+    audioClips,
+    setAudioClips,
+    playerClips,
   } = useApp();
 
   return (
@@ -30,7 +33,7 @@ export default function App() {
           aspectRatio={aspectRatio}
           setAspectRatio={setAspectRatio}
         />
-        <FileUploader setClips={setClips} />
+        <FileUploader setClips={setClips} setAudioClips={setAudioClips} />
       </div>
       <div className="flex justify-center relative">
         <DndContext onDragEnd={handleCanvasDragEnd}>
@@ -38,7 +41,7 @@ export default function App() {
             <Player
               ref={playerRef}
               component={isEditing ? EditingComposition : PlayableComposition}
-              inputProps={{ clips, setClips }}
+              inputProps={{ clips: playerClips, setClips }}
               durationInFrames={totalDurationInFrames}
               fps={FPS}
               compositionWidth={width}
@@ -52,7 +55,13 @@ export default function App() {
         </DndContext>
       </div>
 
-      <Timeline clips={clips} setClips={setClips} playerRef={playerRef} />
+      <Timeline
+        clips={clips}
+        setClips={setClips}
+        playerRef={playerRef}
+        audioClips={audioClips}
+        setAudioClips={setAudioClips}
+      />
     </div>
   );
 }

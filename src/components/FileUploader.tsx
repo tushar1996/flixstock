@@ -4,10 +4,14 @@ import { useFileUploader } from "../hooks/useFileUploader";
 
 type FileUploaderProps = {
   setClips: React.Dispatch<React.SetStateAction<Clip[]>>;
+  setAudioClips: React.Dispatch<React.SetStateAction<Clip[]>>;
 };
 
-const FileUploader: FC<FileUploaderProps> = ({ setClips }) => {
-  const { handleClick, handleUpload, inputRef } = useFileUploader(setClips);
+const FileUploader: FC<FileUploaderProps> = ({ setClips, setAudioClips }) => {
+  const { handleClick, handleUpload, inputRef } = useFileUploader(
+    setClips,
+    setAudioClips,
+  );
 
   return (
     <div>

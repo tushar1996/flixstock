@@ -8,7 +8,7 @@ export const usePlayhead = (
 
   return {
     style: {
-      left: frame * SCALE,
+      left: frame * SCALE + 12,
     },
   };
 };

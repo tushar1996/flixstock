@@ -7,6 +7,7 @@ import { getTotalDurationInFrames } from "../utils";
 
 export const useApp = () => {
   const [clips, setClips] = useState<Clip[]>([]);
+  const [audioClips, setAudioClips] = useState<Clip[]>([]);
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>("9:16");
   const [isEditing, setIsEditing] = useState(false);
   const playerRef = useRef<PlayerRef>(null);
@@ -40,7 +41,9 @@ export const useApp = () => {
   }, [playerRef]);
 
   useEffect(() => {
-    const nextSources = new Map(clips.map((clip) => [clip.id, clip.src]));
+    const nextSources = new Map(
+      [...clips, ...audioClips].map((clip) => [clip.id, clip.src]),
+    );
 
     clipSourcesRef.current.forEach((src, id) => {
       if (nextSources.get(id) !== src) {
@@ -90,5 +93,8 @@ export const useApp = () => {
     totalDurationInFrames,
     width,
     handleCanvasDragEnd,
+    audioClips,
+    setAudioClips,
+    playerClips: [...clips, ...audioClips],
   };
 };

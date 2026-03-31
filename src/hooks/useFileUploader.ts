@@ -10,6 +10,7 @@ import {
 
 export const useFileUploader = (
   setClips: React.Dispatch<React.SetStateAction<Clip[]>>,
+  setAudioClips: React.Dispatch<React.SetStateAction<Clip[]>>,
 ) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,24 +44,49 @@ export const useFileUploader = (
       }),
     );
 
-    setClips((prev) => {
-      const updated = [...prev];
-      const totalDurationInFrames = getTotalDurationInFrames(prev);
-      const currentTrack = getLastTrack(prev);
-      let currStart = totalDurationInFrames;
+    const videoImageClips = newClips.filter((x) => x.type !== "audio");
+    const audioClips = newClips.filter((x) => x.type === "audio");
 
-      newClips.forEach((clip) => {
-        updated.push({
-          ...clip,
-          start: currStart,
-          track: currentTrack,
-          zIndex: currentTrack,
+    if (videoImageClips.length > 0) {
+      setClips((prev) => {
+        const updated = [...prev];
+        const totalDurationInFrames = getTotalDurationInFrames(prev);
+        const currentTrack = getLastTrack(prev);
+        let currStart = totalDurationInFrames;
+
+        videoImageClips.forEach((clip) => {
+          updated.push({
+            ...clip,
+            start: currStart,
+            track: currentTrack,
+            zIndex: currentTrack,
+          });
+          currStart += clip.duration;
         });
-        currStart += clip.duration;
-      });
 
-      return updated;
-    });
+        return updated;
+      });
+    }
+
+    if (audioClips.length > 0) {
+      setAudioClips((prev) => {
+        const updated = [...prev];
+        const totalDurationInFrames = getTotalDurationInFrames(prev);
+        let currStart = totalDurationInFrames;
+
+        audioClips.forEach((clip) => {
+          updated.push({
+            ...clip,
+            start: currStart,
+            track: 0,
+            zIndex: 0,
+          });
+          currStart += clip.duration;
+        });
+
+        return updated;
+      });
+    }
 
     e.target.value = "";
   };
