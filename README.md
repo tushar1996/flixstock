@@ -5,6 +5,7 @@ A small browser-based media editor built with React, Vite, Remotion, and `@dnd-k
 The app lets you upload image, video, and audio assets, arrange them on a timeline, preview playback, and reposition/resize visual clips on a canvas.
 
 [Deployed on vercel](https://flixstock-five.vercel.app/)
+[Demo Video](https://drive.google.com/file/d/1gUgVUfOOs2rg9nSw_bVw78cCPVU0Mc3H/view?usp=sharing)
 
 ## Features
 
