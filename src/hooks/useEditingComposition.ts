@@ -1,8 +1,6 @@
 import { type Clip } from "../types";
-import { getTotalDurationInFrames } from "../utils";
 
 export const useEditingComposition = (
-  clips: Clip[],
   setClips: React.Dispatch<React.SetStateAction<Clip[]>>,
 ) => {
   const updateClip = (id: string, updates: Partial<Clip>) => {
@@ -12,7 +10,6 @@ export const useEditingComposition = (
   };
 
   return {
-    durationInFrames: getTotalDurationInFrames(clips),
     updateClip,
   };
 };

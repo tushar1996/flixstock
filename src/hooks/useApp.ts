@@ -14,8 +14,8 @@ export const useApp = () => {
   const clipSourcesRef = useRef(new Map<string, string>());
   const { width, height } = AspectRatioVsDimensions[aspectRatio ?? "9:16"];
   const totalDurationInFrames = useMemo(
-    () => getTotalDurationInFrames(clips),
-    [clips],
+    () => getTotalDurationInFrames([...clips, ...audioClips]),
+    [clips, audioClips],
   );
 
   useEffect(() => {

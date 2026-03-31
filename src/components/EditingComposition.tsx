@@ -1,4 +1,4 @@
-import { AbsoluteFill, Sequence } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { type FC } from "react";
 import { type Clip } from "../types";
 import EditClipRenderer from "./EditClipRenderer";
@@ -13,21 +13,15 @@ const EditingComposition: FC<EditingCompositionProps> = ({
   clips,
   setClips,
 }) => {
-  const { durationInFrames, updateClip } = useEditingComposition(clips, setClips);
+  const { updateClip } = useEditingComposition(setClips);
 
   return (
     <AbsoluteFill className="bg-black">
-      <Sequence from={0} durationInFrames={durationInFrames}>
-        <div className="relative w-full h-full">
-          {clips.map((clip) => (
-            <EditClipRenderer
-              key={clip.id}
-              clip={clip}
-              updateClip={updateClip}
-            />
-          ))}
-        </div>
-      </Sequence>
+      <div className="relative w-full h-full">
+        {clips.map((clip) => (
+          <EditClipRenderer key={clip.id} clip={clip} updateClip={updateClip} />
+        ))}
+      </div>
     </AbsoluteFill>
   );
 };
